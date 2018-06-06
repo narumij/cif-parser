@@ -1,15 +1,13 @@
-module Crystallography.CIFParser.File (
-  cifFile,
+module Crystallography.Text.CIF.Parser (
+  cif,
 ) where
-
-import Crystallography.CIFParser.Types
 
 import Control.Monad
 import Data.Maybe
-
 import Text.Parsec
 import Text.ParserCombinators.Parsec.Prim (GenParser)
 
+import Crystallography.Text.CIF.Contents
 
 sp :: GenParser Char st Char
 sp = char ' ' <?> "<SP>"
@@ -314,9 +312,9 @@ unquoteStringB = notsol >> do
 
 ---------------------
 
-cifFile = do
-  c <- cif
-  return c
+-- cif = do
+--   c <- cif'
+--   return c
 
 cif = do
   optional comments
@@ -372,7 +370,6 @@ dataItemA = do
       value <?> "<DataItemA-Value>"
     b = value' <?> "<DataItemA-Value'>"
 
-
 dataItemB = do
   header <- loopHeader <?> "<DataItemB-LoopHeader>"
   body <- loopBody <?> "<DataItemB-LoopBody>"
@@ -395,9 +392,3 @@ loopBody = do
       value
     b = do
       value'
-
-
-
-
-
----
